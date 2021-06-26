@@ -1,0 +1,22 @@
+version: "3.7"
+
+services:
+    server:
+        build: ./server
+        ports:
+            - 7003:7003
+        env_file:
+            - ./server/.env
+        #networks:
+        #    - root_services
+    client:
+        build: 
+            context: ./client
+        ports:
+            - 9003:9003
+        env_file:
+            - ./client/.env
+
+#networks:
+#    root_services:
+#      external: true
