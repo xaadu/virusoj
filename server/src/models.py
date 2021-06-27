@@ -24,9 +24,3 @@ class TestCase(BaseModel):
     std_input: str
     std_output: str
     sample: bool
-
-
-class TestCaseUpdate(BaseModel):
-    std_input: str
-    std_output: str
-    sample: bool
