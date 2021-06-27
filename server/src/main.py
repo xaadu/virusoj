@@ -1,7 +1,19 @@
+import os
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from routers import problems
+
+DEBUG=os.environ.get('DEBUG', 'TRUE') == 'TRUE'
+if DEBUG:
+    import dotenv
+    dotenv.load_dotenv('../.env')
+
+
+from routers import (
+    problems,
+)
+
 
 APP_VERSION = '1'
 
