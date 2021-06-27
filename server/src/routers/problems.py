@@ -43,6 +43,7 @@ async def create_problem(request: Request, problem: Problem):
     data['total_submission'] = 0
     data['accepted_submission'] = 0
     data['accepted_user_submission'] = 0
+    data['test_cases'] = list()
 
     data = problem_dm.create_problem(data)
 
