@@ -7,6 +7,9 @@ Online Judge for Simple Practicing Problems for beginner
 * Edit Problems (Permissions will be updated)
 * Remove Problems (Permissions will be updated)
 * See Problems List 
+* Add TestCase
+* Edit TestCase
+* Remove TestCase
 
 
 ## Live Links

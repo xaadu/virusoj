@@ -12,6 +12,7 @@ if DEBUG:
 
 from routers import (
     problems,
+    testcases,
 )
 
 
@@ -41,3 +42,4 @@ async def home():
 
 
 app.include_router(problems.router)
+app.include_router(testcases.router)
