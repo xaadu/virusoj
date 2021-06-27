@@ -1,11 +1,4 @@
-import os
-
 from fastapi import Request
-
-DEBUG=os.environ.get('DEBUG', 'TRUE') == 'TRUE'
-if DEBUG:
-    import dotenv
-    dotenv.load_dotenv('../.env')
 
 # HELPER FUNCTIONS
 def getIP(request: Request):

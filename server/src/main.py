@@ -1,7 +1,5 @@
-from fastapi import FastAPI, Request
+from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-
-import helpers
 
 from routers import problems
 
