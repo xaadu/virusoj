@@ -29,6 +29,8 @@ class ProblemDatabaseManager(DatabaseManager):
                 problem = self.problems.find_one({'_id': problem_id})
                 if problem is not None:
                     problem['_id'] = problem['_id'].__str__()
+                    problem['test_cases']=[test_case for test_case in problem.get('test_cases') if test_case.get('sample')]
+
                     data = {
                         'status': 'success',
                         'data': problem
