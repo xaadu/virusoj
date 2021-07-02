@@ -38,9 +38,13 @@ class AuthHandler():
             algorithm=self.algorithm
         )
 
-    def decode_token(self, token):
+    def decode_token(self, token, roles: list = []):
         try:
             payload = jwt.decode(token, self.secret, algorithms=[ALGORITHM])
+
+            if payload['role'] not in roles:
+                raise HTTPException(status_code=401, detail='You don\'t have enough permission for this request')
+            
             del payload['exp']
             del payload['iat']
             return payload
@@ -51,3 +55,12 @@ class AuthHandler():
 
     def auth_wrapper(self, auth: HTTPAuthorizationCredentials = Security(security)):
         return self.decode_token(auth.credentials)
+
+    def allow_admin(self, auth: HTTPAuthorizationCredentials = Security(security)):
+        return self.decode_token(auth.credentials, ['admin'])
+
+    def allow_setter(self, auth: HTTPAuthorizationCredentials = Security(security)):
+        return self.decode_token(auth.credentials, ['admin', 'setter'])
+
+    def allow_solver(self, auth: HTTPAuthorizationCredentials = Security(security)):
+        return self.decode_token(auth.credentials, ['admin', 'setter', 'solver'])
