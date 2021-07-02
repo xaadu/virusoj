@@ -38,7 +38,7 @@ class AuthHandler():
             algorithm=self.algorithm
         )
 
-    def decode_token(self, token, roles: list = []):
+    def decode_token(self, token, roles: list = ['solver']):
         try:
             payload = jwt.decode(token, self.secret, algorithms=[ALGORITHM])
 
