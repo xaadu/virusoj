@@ -13,6 +13,7 @@ if DEBUG:
 from routers import (
     problems,
     testcases,
+    auth,
 )
 
 
@@ -43,3 +44,4 @@ async def home():
 
 app.include_router(problems.router)
 app.include_router(testcases.router)
+app.include_router(auth.router)

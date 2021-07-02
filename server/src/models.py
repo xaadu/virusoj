@@ -24,3 +24,22 @@ class TestCase(BaseModel):
     std_input: str
     std_output: str
     sample: bool
+
+
+class UserRegister(BaseModel):
+    name: str
+    gender: str
+
+    email: str
+    password: str
+
+    about: Optional[str] = ''
+    full_name: Optional[str] = ''
+    phone_number: Optional[str] = ''
+    city: Optional[str] = ''
+    state: Optional[str] = ''
+    country: Optional[str] = ''
+
+class UserLogin(BaseModel):
+    email: str
+    password: str
