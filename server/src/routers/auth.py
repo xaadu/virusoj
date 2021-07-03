@@ -44,7 +44,7 @@ def login(user_details: UserLogin, response: Response):
     users = user_dm.get_users()['data']
     for x in users:
         if x['email'] == user_details.email:
-            data = user_dm.get_user(x['email'])
+            data = user_dm.get_user(x['_id'])
             if data['status']=='success':
                 user = data['data']
                 break

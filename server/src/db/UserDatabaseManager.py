@@ -21,26 +21,34 @@ class UserDatabaseManager(DatabaseManager):
             print(e)
         return None
 
-    def get_user(self, user_email: str) -> dict:
+    def get_user(self, user_id: str) -> dict:
         try:
-            user = self.users.find_one({'email': user_email})
-            if user is not None:
-                user['_id'] = user['_id'].__str__()
+            user_id = ObjectId(user_id)
+            try:
+                user = self.users.find_one({'_id': user_id})
+                if user is not None:
+                    user['_id'] = user['_id'].__str__()
 
-                data = {
-                    'status': 'success',
-                    'data': user
-                }
-            else:
+                    data = {
+                        'status': 'success',
+                        'data': user
+                    }
+                else:
+                    data = {
+                        'status': 'failed',
+                        'reason': 'No data found with this id'
+                    }
+            except Exception as e:
                 data = {
                     'status': 'failed',
-                    'reason': 'No data found with this email'
+                    'reason': str(e)
                 }
-        except Exception as e:
+        except:
             data = {
                 'status': 'failed',
-                'reason': str(e)
+                'reason': 'Invalid ID'
             }
+        
         return data
 
     def get_users(self, limit: int = 0, start: int = 0) -> dict:
