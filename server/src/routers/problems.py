@@ -37,6 +37,25 @@ async def problems(page: Optional[int] = 1, start: Optional[int] = None):
     return data
 
 
+@router.get('/filtered')
+async def filtered_problems(response: Response, page: Optional[int] = 1, start: Optional[int] = None, user: dict = Depends(auth_handler.auth_wrapper)):
+    if page < 1:
+        page = 1
+
+    if start is None:
+        start = (page-1) * NUM_OF_DATA_PER_PAGE
+        ndpp = NUM_OF_DATA_PER_PAGE
+    else:
+        ndpp = page*NUM_OF_DATA_PER_PAGE
+
+    data = problem_dm.get_problems(ndpp, start, user['email'])
+
+    if data['status'] == 'failed':
+        response.status_code = status.HTTP_400_BAD_REQUEST
+
+    return data
+
+
 @router.post('/')
 async def create_problem(problem: Problem, user: dict = Depends(auth_handler.auth_wrapper)):
 

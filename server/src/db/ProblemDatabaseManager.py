@@ -52,22 +52,36 @@ class ProblemDatabaseManager(DatabaseManager):
             }
         return data
 
-    def get_problems(self, limit: int = 0, start: int = 0) -> dict:
+    def get_problems(self, limit: int = 0, start: int = 0, user_email: str = None) -> dict:
         try:
-            problems = list(self.problems.find(
-                                                skip=start, 
-                                                limit=limit, 
-                                                projection=['title', 
-                                                            'total_submission',
-                                                            'accepted_submission',
-                                                            'creator_email',
-                                                ]
-                                            ))
+            if user_email is None:
+                problems = list(self.problems.find(
+                                                    skip=start, 
+                                                    limit=limit, 
+                                                    projection=['title', 
+                                                                'total_submission',
+                                                                'accepted_submission',
+                                                                'creator_email',
+                                                    ]
+                                                ))
+            else:
+                problems = list(self.problems.find({'creator_email': user_email},
+                                                    skip=start, 
+                                                    limit=limit, 
+                                                    projection=['title', 
+                                                                'total_submission',
+                                                                'accepted_submission',
+                                                                'creator_email',
+                                                    ]
+                                                ))
 
             for problem in problems:
                 problem['_id'] = problem['_id'].__str__()
-
-            total_problem = self.num_of_problem
+                
+            if user_email is None:
+                total_problem = self.num_of_problem
+            else:
+                total_problem = self.problems.count({'creator_email': user_email})
 
             metadata = {
                 'total_problem': total_problem,
