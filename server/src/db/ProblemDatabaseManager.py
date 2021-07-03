@@ -60,6 +60,7 @@ class ProblemDatabaseManager(DatabaseManager):
                                                 projection=['title', 
                                                             'total_submission',
                                                             'accepted_submission',
+                                                            'creator_email',
                                                 ]
                                             ))
 
