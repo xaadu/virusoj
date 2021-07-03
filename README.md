@@ -3,13 +3,15 @@ Online Judge for Simple Practicing Problems for beginner
 
 
 ## Features
-* Add Problems (Permissions will be updated)
-* Edit Problems (Permissions will be updated)
-* Remove Problems (Permissions will be updated)
+* Add Problems (Permissions Will Be Updated)
+* Edit Problems (Permissions Will Be Updated)
+* Remove Problems (Permissions Will Be Updated)
 * See Problems List 
-* Add TestCase
-* Edit TestCase
-* Remove TestCase
+* Add TestCase (Permissions Will Be Updated)
+* Edit TestCase (Permissions Will Be Updated)
+* Remove TestCase (Permissions Will Be Updated)
+* Authentication
+* User Update / Delete
 
 
 ## Live Links
