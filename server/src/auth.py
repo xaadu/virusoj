@@ -38,11 +38,11 @@ class AuthHandler():
             algorithm=self.algorithm
         )
 
-    def decode_token(self, token, roles: list = ['solver']):
+    def decode_token(self, token, roles: list = []):
         try:
             payload = jwt.decode(token, self.secret, algorithms=[ALGORITHM])
 
-            if payload['role'] not in roles:
+            if len(roles)>0 and payload['role'] not in roles:
                 raise HTTPException(status_code=401, detail='You don\'t have enough permission for this request')
             
             del payload['exp']
