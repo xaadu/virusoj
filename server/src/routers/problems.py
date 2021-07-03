@@ -69,7 +69,7 @@ async def update_problem(response: Response, problem_id: str, problem: ProblemUp
     except:
         pass
 
-    if user['sub'] != data.get('creator') and user['role'] != 'admin':
+    if user['email'] != data.get('creator_email') and user['role'] != 'admin':
         response.status_code = status.HTTP_401_UNAUTHORIZED
         data = {
             'status': 'failed',
