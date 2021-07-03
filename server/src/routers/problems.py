@@ -38,7 +38,7 @@ async def problems(page: Optional[int] = 1, start: Optional[int] = None):
 
 
 @router.get('/filtered')
-async def filtered_problems(response: Response, page: Optional[int] = 1, start: Optional[int] = None, user: dict = Depends(auth_handler.auth_wrapper)):
+async def filtered_problems(response: Response, page: Optional[int] = 1, start: Optional[int] = None, user: dict = Depends(auth_handler.allow_setter)):
     if page < 1:
         page = 1
 
