@@ -6,8 +6,13 @@ RUN cp /usr/share/zoneinfo/Asia/Dhaka /etc/localtime
 RUN echo "Asia/Dhaka" > /etc/timezone
 RUN apk del tzdata
 
+#RUN apk add --update musl-dev gcc libffi-dev
+RUN apk add --update --no-cache --virtual .build-deps musl-dev gcc libffi-dev
+
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
+
+RUN apk del .build-deps
 
 WORKDIR /usr/src/app
 COPY ./src .
