@@ -8,6 +8,7 @@ RUN apk del tzdata
 
 #RUN apk add --update musl-dev gcc libffi-dev
 RUN apk add --update --no-cache --virtual .build-deps musl-dev gcc libffi-dev
+#also needed for fixing uvloop install error in pure alpine python image : libc-dev make
 
 COPY ./requirements.txt .
 RUN pip install -r requirements.txt
