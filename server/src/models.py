@@ -40,6 +40,21 @@ class UserRegister(BaseModel):
     state: Optional[str] = ''
     country: Optional[str] = ''
 
+
 class UserLogin(BaseModel):
     email: str
     password: str
+
+
+class UserUpdate(BaseModel):
+    name: Optional[str]
+    gender: Optional[str]
+
+    role: Optional[str]
+
+    about: Optional[str] = ''
+    full_name: Optional[str] = ''
+    phone_number: Optional[str] = ''
+    city: Optional[str] = ''
+    state: Optional[str] = ''
+    country: Optional[str] = ''

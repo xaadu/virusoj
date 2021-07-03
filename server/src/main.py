@@ -14,6 +14,7 @@ from routers import (
     problems,
     testcases,
     auth,
+    users,
 )
 
 
@@ -45,3 +46,4 @@ async def home():
 app.include_router(problems.router)
 app.include_router(testcases.router)
 app.include_router(auth.router)
+app.include_router(users.router)
