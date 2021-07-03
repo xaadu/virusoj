@@ -45,7 +45,7 @@ async def create_problem(problem: Problem, user: dict = Depends(auth_handler.aut
     data['total_submission'] = 0
     data['accepted_submission'] = 0
     data['accepted_user_submission'] = 0
-    data['creator'] = user['sub']
+    data['creator_email'] = user['email']
     data['test_cases'] = list()
 
     data = problem_dm.create_problem(data)
@@ -90,7 +90,7 @@ async def remove_problem(response: Response, problem_id: str, user: dict = Depen
     except:
         pass
 
-    if user['sub'] != data.get('creator') and user['role'] != 'admin':
+    if user['email'] != data.get('creator_email') and user['role'] != 'admin':
         response.status_code = status.HTTP_401_UNAUTHORIZED
         data = {
             'status': 'failed',
