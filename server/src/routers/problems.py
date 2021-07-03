@@ -1,6 +1,8 @@
-from fastapi import APIRouter, Request
+from fastapi import APIRouter, Response, Depends, status
 
 from typing import Optional
+
+from auth import AuthHandler
 
 from env_vars import (
     NUM_OF_DATA_PER_PAGE,
@@ -14,17 +16,17 @@ from db import (
     ProblemDatabaseManager
 )
 
+auth_handler = AuthHandler()
+problem_dm = ProblemDatabaseManager.ProblemDatabaseManager()
+
 router = APIRouter(
     prefix='/problems',
     tags=['problems'],
 )
 
 
-problem_dm = ProblemDatabaseManager.ProblemDatabaseManager()
-
-
 @router.get('/')
-async def problems(request: Request, page: Optional[int] = 1, start: Optional[int] = None):
+async def problems(page: Optional[int] = 1, start: Optional[int] = None):
     if page < 1:
         page = 1
     if start is None:
@@ -36,13 +38,14 @@ async def problems(request: Request, page: Optional[int] = 1, start: Optional[in
 
 
 @router.post('/')
-async def create_problem(request: Request, problem: Problem):
+async def create_problem(problem: Problem, user: dict = Depends(auth_handler.auth_wrapper)):
 
     data = dict(problem)
 
     data['total_submission'] = 0
     data['accepted_submission'] = 0
     data['accepted_user_submission'] = 0
+    data['creator'] = user['sub']
     data['test_cases'] = list()
 
     data = problem_dm.create_problem(data)
@@ -51,7 +54,7 @@ async def create_problem(request: Request, problem: Problem):
 
 
 @router.get('/{problem_id}')
-async def get_problem(request: Request, problem_id: str):
+async def get_problem(problem_id: str):
 
     data = problem_dm.get_problem(problem_id)
 
@@ -59,18 +62,41 @@ async def get_problem(request: Request, problem_id: str):
 
 
 @router.put('/{problem_id}')
-async def update_problem(request: Request, problem_id: str, problem: ProblemUpdate):
+async def update_problem(response: Response, problem_id: str, problem: ProblemUpdate, user: dict = Depends(auth_handler.allow_setter)):
 
-    problem = {k: v for k, v in dict(problem).items() if v is not None}
+    try:
+        data = problem_dm.get_problem(problem_id)['data']
+    except:
+        pass
 
-    data = problem_dm.update_problem(problem_id, problem)
+    if user['sub'] != data.get('creator') and user['role'] != 'admin':
+        response.status_code = status.HTTP_401_UNAUTHORIZED
+        data = {
+            'status': 'failed',
+            'reason': 'You don\'t have permission to update this data'
+        }
+    else:
+        problem = {k: v for k, v in dict(problem).items() if v is not None}
+        data = problem_dm.update_problem(problem_id, problem)
 
     return data
 
 
 @router.delete('/{problem_id}')
-async def remove_problem(request: Request, problem_id: str):
+async def remove_problem(response: Response, problem_id: str, user: dict = Depends(auth_handler.allow_setter)):
 
-    data = problem_dm.remove_problem(problem_id)
+    try:
+        data = problem_dm.get_problem(problem_id)['data']
+    except:
+        pass
+
+    if user['sub'] != data.get('creator') and user['role'] != 'admin':
+        response.status_code = status.HTTP_401_UNAUTHORIZED
+        data = {
+            'status': 'failed',
+            'reason': 'You don\'t have permission to delete this data'
+        }
+    else:
+        data = problem_dm.remove_problem(problem_id)
 
     return data
