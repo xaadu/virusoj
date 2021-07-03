@@ -7,9 +7,9 @@ Online Judge for Simple Practicing Problems for beginner
 * Edit Problems (Permission: Admin, Porblem Setter)
 * Remove Problems (Permission: Admin, Porblem Setter)
 * See Problems List 
-* Add TestCase (Permissions Will Be Updated)
-* Edit TestCase (Permissions Will Be Updated)
-* Remove TestCase (Permissions Will Be Updated)
+* Add TestCase (Permission: Admin, Porblem Setter)
+* Edit TestCase (Permission: Admin, Porblem Setter)
+* Remove TestCase (Permission: Admin, Porblem Setter)
 * Authentication
 * User Update / Delete
 
