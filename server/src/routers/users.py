@@ -25,7 +25,7 @@ router = APIRouter(
 
 
 @router.get('/', dependencies=[Depends(auth_handler.allow_admin)])
-def users(response: Response, page: Optional[int] = 1, start: Optional[int] = None):
+async def users(response: Response, page: Optional[int] = 1, start: Optional[int] = None):
     if page < 1:
         page = 1
     if start is None:
@@ -41,7 +41,7 @@ def users(response: Response, page: Optional[int] = 1, start: Optional[int] = No
 
 
 @router.get('/{user_id}')
-def get_user(user_id: str, response: Response):
+async def get_user(user_id: str, response: Response):
 
     data = user_dm.get_user(user_id)
 
@@ -52,7 +52,7 @@ def get_user(user_id: str, response: Response):
 
 
 @router.put('/{user_id}')
-def update_user(user_id: str, user_data: UserUpdate, response: Response, user: dict = Depends(auth_handler.auth_wrapper)):
+async def update_user(user_id: str, user_data: UserUpdate, response: Response, user: dict = Depends(auth_handler.auth_wrapper)):
 
     if user['sub'] != user_id and user['role'] != 'admin':
         response.status_code = status.HTTP_401_UNAUTHORIZED
@@ -75,7 +75,7 @@ def update_user(user_id: str, user_data: UserUpdate, response: Response, user: d
 
 
 @router.delete('/{user_id}')
-def delete_user(user_id: str, response: Response, user: dict = Depends(auth_handler.auth_wrapper)):
+async def delete_user(user_id: str, response: Response, user: dict = Depends(auth_handler.auth_wrapper)):
 
     if user['sub'] != user_id and user['role'] != 'admin':
         response.status_code = status.HTTP_401_UNAUTHORIZED
